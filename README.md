@@ -73,7 +73,8 @@ const searchKey = 'name'; // The property to search for in the objects
 // or we can also use a function to map things
 const searchFunction = (d) => d.title + d.description; // The property to search for in the objects
 const maxResults = 10; // Maximum number of results to display
-const [onTextChange, filteredObjects, searchText] = useSearch(data, searchKey || searchFunction, maxResults);
+const tokeniser = ' '; // what to use to split the strings -> default is ' ', can be a RegExp
+const [onTextChange, filteredObjects, searchText] = useSearch(data, searchKey || searchFunction, maxResults, tokeniser);
 ```
 
 ### Example
