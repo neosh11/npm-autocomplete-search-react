@@ -1,6 +1,6 @@
 {
   "name": "autocomplete-search-react",
-  "version": "0.0.6",
+  "version": "0.0.9",
   "description": "This package enables you to perform prefix searches with exceptional speed in react native and react.",
   "main": "./dist/bundle.cjs.js",
   "module": "./dist/bundle.esm.js",

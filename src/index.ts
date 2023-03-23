@@ -1,43 +1,44 @@
 import { useEffect, useMemo, useState } from 'react';
 import { String2ObjectAutoCompleteSearch } from '@neosh11/autocomplete-search';
 
-export function useSearch(
-  data: any[],
-  searchKey: string | ((arg0: any) => string),
-  maxResults: number,
-  tokenizer?: RegExp | string,
-) {
+export function useSearch(p: {
+  data: any[];
+  searchId: string;
+  searchKey: string | ((arg0: any) => string);
+  maxResults: number;
+  tokenizer?: RegExp | string;
+}) {
   const [searchText, setSearchText] = useState('');
-  const [filteredObjects, setFilteredObjects] = useState(data);
+  const [filteredObjects, setFilteredObjects] = useState(p.data);
   const autoCompleteSearch = useMemo(() => {
     const searchOptions = {
       ignoreCase: true,
-      objectIdProperty: 'id',
-      tokenizer: tokenizer || ' ',
+      objectIdProperty: p.searchId || 'id',
+      tokenizer: p.tokenizer || ' ',
     };
     return new String2ObjectAutoCompleteSearch(searchOptions);
-  }, [tokenizer]);
+  }, [p.searchId, p.tokenizer]);
   useEffect(() => {
     autoCompleteSearch.clear();
     // fill autoCompleteSearch
-    data.forEach((d) => {
-      const searchString = typeof searchKey === 'function' ? searchKey(d) : d[searchKey];
+    p.data.forEach((d) => {
+      const searchString = typeof p.searchKey === 'function' ? p.searchKey(d) : d[p.searchKey];
       autoCompleteSearch.insert(searchString, d);
     });
 
     if (searchText === '') {
-      setFilteredObjects(data);
+      setFilteredObjects(p.data);
     } else {
-      setFilteredObjects(autoCompleteSearch.findObjects(searchText, maxResults));
+      setFilteredObjects(autoCompleteSearch.findObjects(searchText, p.maxResults));
     }
     // set initial filtered objects
-  }, [autoCompleteSearch, data, maxResults, searchKey, searchText]);
+  }, [autoCompleteSearch, p, p.data, p.maxResults, p.searchKey, searchText]);
   const onTextChange = (val: string) => {
     if (val === '') {
-      setFilteredObjects(data);
+      setFilteredObjects(p.data);
       setSearchText(val);
     } else {
-      setFilteredObjects(autoCompleteSearch.findObjects(val, maxResults));
+      setFilteredObjects(autoCompleteSearch.findObjects(val, p.maxResults));
       setSearchText(val);
     }
   };
