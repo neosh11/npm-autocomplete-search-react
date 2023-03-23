@@ -1,0 +1,66 @@
+{
+  "name": "autocomplete-search-react",
+  "version": "0.0.1",
+  "description": "This package enables you to perform prefix searches with exceptional speed in react native and react.",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "scripts": {
+    "test": "jest --config jestconfig.json",
+    "build": "yarn build:esm && yarn build:cjs",
+    "build:esm": "tsc",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
+    "format": "prettier --write src/**/*.ts",
+    "lint": "eslint \"{**/*,*}.{js,ts,jsx,tsx}\"",
+    "prettier": "prettier --write \"{src,example/src}/**/*.{js,ts,jsx,tsx}\"",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run prettier && npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neosh11/npm-autocomplete-search-react.git"
+  },
+  "keywords": [
+    "autocomplete",
+    "search",
+    "react",
+    "react-native",
+    "hook"
+  ],
+  "author": "Neosh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neosh11/npm-autocomplete-search-react/issues"
+  },
+  "homepage": "https://github.com/neosh11/npm-autocomplete-search-react#readme",
+  "devDependencies": {
+    "@testing-library/react": "^14.0.0",
+    "@types/jest": "^29.5.0",
+    "@types/react": "^18.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
+    "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
+    "jest": "^29.5.0",
+    "jest-canvas-mock": "^2.4.0",
+    "jest-environment-jsdom": "^29.5.0",
+    "prettier": "^2.8.6",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.7.3"
+  },
+  "dependencies": {
+    "@neosh11/autocomplete-search": "^0.0.6"
+  }
+}
