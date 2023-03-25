@@ -1,16 +1,18 @@
 import { useEffect, useMemo, useState } from 'react';
 import { String2ObjectAutoCompleteSearch } from '@neosh11/autocomplete-search';
 
-export function useSearch({
+// Type is a type of the object that you want to search in
+export function useSearch<T>({
   data,
   searchId,
   searchKey,
   maxResults,
   tokenizer,
 }: {
-  data: any[];
-  searchId: string;
-  searchKey: string | ((arg0: any) => string);
+  data: T[];
+  // type is property of T as a string
+  searchId: keyof T;
+  searchKey: keyof T | ((arg0: T) => string);
   maxResults: number;
   tokenizer?: RegExp | string;
 }) {
@@ -19,7 +21,7 @@ export function useSearch({
   const autoCompleteSearch = useMemo(() => {
     const searchOptions = {
       ignoreCase: true,
-      objectIdProperty: searchId || 'id',
+      objectIdProperty: searchId,
       tokenizer: tokenizer || ' ',
     };
     return new String2ObjectAutoCompleteSearch(searchOptions);
@@ -29,7 +31,7 @@ export function useSearch({
     autoCompleteSearch.clear();
     // fill autoCompleteSearch
     data.forEach((d) => {
-      const searchString = typeof searchKey === 'function' ? searchKey(d) : d[searchKey];
+      const searchString = typeof searchKey === 'function' ? searchKey(d) : (d[searchKey] as string);
       autoCompleteSearch.insert(searchString, d);
     });
   }, [autoCompleteSearch, data, searchKey]);
