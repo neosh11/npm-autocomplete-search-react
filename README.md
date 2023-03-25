@@ -5,8 +5,8 @@
 <img src="https://img.shields.io/pypi/wheel/pip?color=green&label=React"/>
 <img src="https://img.shields.io/pypi/wheel/pip?color=green&label=React-Native"/>
 
-<img src="https://img.shields.io/bundlephobia/min/autocomplete-search-react/0.0.9"/>
-<img src="https://img.shields.io/bundlephobia/minzip/autocomplete-search-react"/>
+<img src="https://img.shields.io/bundlephobia/min/autocomplete-search-react/0.1.6"/>
+<img src="https://img.shields.io/bundlephobia/minzip/autocomplete-search-react/0.1.6"/>
 <img src="https://img.shields.io/npm/v/autocomplete-search-react"/>
 
 <img src="https://img.shields.io/twitter/follow/IGrowNeo?style=social"/>

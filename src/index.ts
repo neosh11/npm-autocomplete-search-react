@@ -1,7 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { String2ObjectAutoCompleteSearch } from '@neosh11/autocomplete-search';
 
-export function useSearch(p: {
+export function useSearch({
+  data,
+  searchId,
+  searchKey,
+  maxResults,
+  tokenizer,
+}: {
   data: any[];
   searchId: string;
   searchKey: string | ((arg0: any) => string);
@@ -9,38 +15,35 @@ export function useSearch(p: {
   tokenizer?: RegExp | string;
 }) {
   const [searchText, setSearchText] = useState('');
-  const [filteredObjects, setFilteredObjects] = useState(p.data);
+
   const autoCompleteSearch = useMemo(() => {
     const searchOptions = {
       ignoreCase: true,
-      objectIdProperty: p.searchId || 'id',
-      tokenizer: p.tokenizer || ' ',
+      objectIdProperty: searchId || 'id',
+      tokenizer: tokenizer || ' ',
     };
     return new String2ObjectAutoCompleteSearch(searchOptions);
-  }, [p.searchId, p.tokenizer]);
+  }, [searchId, tokenizer]);
+
   useEffect(() => {
     autoCompleteSearch.clear();
     // fill autoCompleteSearch
-    p.data.forEach((d) => {
-      const searchString = typeof p.searchKey === 'function' ? p.searchKey(d) : d[p.searchKey];
+    data.forEach((d) => {
+      const searchString = typeof searchKey === 'function' ? searchKey(d) : d[searchKey];
       autoCompleteSearch.insert(searchString, d);
     });
+  }, [autoCompleteSearch, data, searchKey]);
 
-    if (searchText === '') {
-      setFilteredObjects(p.data);
-    } else {
-      setFilteredObjects(autoCompleteSearch.findObjects(searchText, p.maxResults));
-    }
-    // set initial filtered objects
-  }, [autoCompleteSearch, p, p.data, p.maxResults, p.searchKey, searchText]);
   const onTextChange = (val: string) => {
-    if (val === '') {
-      setFilteredObjects(p.data);
-      setSearchText(val);
-    } else {
-      setFilteredObjects(autoCompleteSearch.findObjects(val, p.maxResults));
-      setSearchText(val);
-    }
+    setSearchText(val);
   };
+
+  const filteredObjects = useMemo(() => {
+    if (searchText === '') {
+      return data;
+    }
+    return autoCompleteSearch.findObjects(searchText, maxResults);
+  }, [autoCompleteSearch, searchText, data, maxResults]);
+
   return [onTextChange, filteredObjects, searchText] as const;
 }
